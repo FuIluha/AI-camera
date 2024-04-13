@@ -11,9 +11,9 @@ void setup() {
 void loop() {
   servoH.write(0);
   servoV.write(180);
-  delay(1000);
+  delay(500);
 
   servoH.write(180);
   servoV.write(0);
-  delay(1000);
+  delay(500);
 }

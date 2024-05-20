@@ -1,8 +1,10 @@
 """
 A class that implements communication between the arduino and the computer via serialport
 """
-
+import sys
 import serial
+
+sys.path.append('../pyserial')
 
 class Bridge:
     """

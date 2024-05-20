@@ -1,19 +1,55 @@
-#include <Servo.h>
+#include <ArduinoJson.h>
 
-Servo servoH;
-Servo servoV;
+class Servo {
+  int pin;
+  int position;
 
-void setup() {
-  servoH.attach(9);
-  servoV.attach(8);
+  public:
+  Servo(int);
+  void move(int);
+};
+
+Servo::Servo(int pin) {
+  this->pin = pin;
+  this->position = position;
 }
 
-void loop() {
-  servoH.write(0);
-  servoV.write(180);
-  delay(1000);
+void Servo::move(int position){
+  this->position = position;
+  int del = (7 * position) + 300;
+  for (int pulseCounter = 0; pulseCounter <= 5; pulseCounter++){
+      digitalWrite(pin, HIGH);
+      delayMicroseconds(del);
+      digitalWrite(pin, LOW);
+      delay(5);
+  }
+}
 
-  servoH.write(180);
-  servoV.write(0);
-  delay(1000);
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+}
+
+Servo servoX(8);
+Servo servoY(9);
+
+
+
+void loop() {
+  if (Serial.available()) {
+    String jsonStr = Serial.readStringUntil('\n');
+    StaticJsonDocument<256> doc;
+    DeserializationError error = deserializeJson(doc, jsonStr);
+
+    if (!error) {
+      int x = int(doc["x"]);
+      int y = int(doc["y"]);
+      servoX.move(x);
+      servoY.move(y);
+    } else {
+      Serial.println("Ошибка при разборе JSON");
+    }
+  }
 }

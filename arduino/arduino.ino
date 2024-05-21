@@ -46,8 +46,10 @@ void loop() {
     if (!error) {
       int x = int(doc["x"]);
       int y = int(doc["y"]);
-      servoX.move(x);
-      servoY.move(y);
+      if (x <= 110 || x >= 0)
+        servoX.move(x);
+      if (y <= 110 || y >= 0)
+        servoY.move(y);
     } else {
       Serial.println("Ошибка при разборе JSON");
     }

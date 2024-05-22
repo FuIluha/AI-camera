@@ -46,5 +46,3 @@ class Camera:
         cap.release()
         cv2.destroyAllWindows()
 
-n = Camera("/dev/cu.usbserial-110")
-n.starting_stream()
